@@ -1,8 +1,12 @@
 const { Block } = require('../models');
 const { Op } = require('sequelize');
+const { validationResult } = require('express-validator');
 
 exports.getBlocks = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    
     const { page = 1, limit = 10, search = '' } = req.query;
     const offset = (page - 1) * limit;
 
@@ -28,6 +32,8 @@ exports.getBlocks = async (req, res) => {
 
 exports.getBlockById = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     const block = await Block.findByPk(req.params.id);
     if (!block) return res.status(404).json({ message: 'Block not found' });
     res.json(block);

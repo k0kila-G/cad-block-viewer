@@ -19,7 +19,6 @@ const blockRoutes = require('./Routes/block.routes');
 app.use('/api/files', fileRoutes);
 app.use('/api/blocks', blockRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+module.exports=app;
+

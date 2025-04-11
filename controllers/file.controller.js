@@ -2,9 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const { File, Block } = require('../models');
 const { extractBlocksFromDXF } = require('../services/dxf.service');
-
+const { validationResult } = require('express-validator');
 exports.uploadDXF = async (req, res) => {
   try {
+    const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     if (!req.files || !req.files.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
